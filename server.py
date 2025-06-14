@@ -67,3 +67,23 @@ def handle_client(client_address, file_name):
         print(f"Error handling client: {e}")
     finally:
         data_socket.close()
+
+
+
+
+import random
+
+while True:
+
+    data, client_address = server_socket.recvfrom(4096)
+    request = data.decode()
+    request_parts = request.split()
+    
+    # resolution Request
+    if len(request_parts) == 2 and request_parts[0] == "DOWNLOAD":
+        file_name = request_parts[1]
+        print(f"Received DOWNLOAD request for {file_name} from {client_address}")
+ 
+        threading.Thread(target=handle_client, args=(client_address, file_name)).start()
+    else:
+        print(f"Invalid request: {request}")
